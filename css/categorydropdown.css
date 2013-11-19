@@ -1,0 +1,184 @@
+.categorydropdown:after
+{
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.categorydropdown, .categorydropdown ul
+{
+    /* Size and position */
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    /* Styles */
+    list-style: none;
+
+    /* Font settings */
+    color: #8AA8BD;
+}
+
+/* The first LI children act as the drop down top level */
+.categorydropdown > li
+{
+    /* Size and position */
+    float: left;
+    margin: 0 12px 12px 0;
+    position: relative;
+    width: 200px;
+}
+
+.categorydropdown > li span
+{
+    /* Size and positions */
+    padding: 10px;
+
+    /* Styles */
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 7px;
+    box-shadow: 0 1px 1px rgba(50,50,50,0.1);
+    cursor: pointer;
+    display: block;
+    outline: none;
+
+    /* Font settings */
+    font-weight: bold;
+}
+
+.categorydropdown > li:after
+{
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: #8aa8bd transparent;
+
+    /* Transition */
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -ms-transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+}
+
+/* The UL lists within the LI elements act as the drop down */
+.categorydropdown > li ul
+{
+  /* Size & position */
+    position: absolute;
+    top: 85%;
+    left: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+
+    /* Styles */
+    background: white;
+    border-radius: 0px 0px 7px 7px;
+    border: 1px solid rgba(0,0,0,0.17);
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    font-weight: normal;
+    list-style: none;
+
+    /* Hiding */
+    opacity: 0;
+    pointer-events: none;
+
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -ms-transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+}
+
+.categorydropdown li ul:after
+{
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: #fff transparent;
+}
+
+.categorydropdown li ul:before
+{
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 13px;
+    border-width: 0 8px 8px 8px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.1) transparent;
+}
+
+.categorydropdown li ul li a
+{
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #8aa8bd;
+    border-bottom: 1px solid #e6e8ea;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,1);
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -ms-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+.categorydropdown li ul li i
+{
+    float: right;
+    color: inherit;
+}
+
+.categorydropdown li ul li:last-of-type a
+{
+    border: none;
+    border-radius: 0 0 7px 7px;
+}
+
+/* Dropdown item Hover state */
+.categorydropdown li ul li:hover > a
+{
+    background: #f3f8f8;
+}
+
+/* Top level Hover/Active state */
+.categorydropdown > li:hover span
+{
+    color: #fff;
+    background: rgb(100,168,216); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,rgba(100,168,216,1)), color-stop(100%,rgba(35,132,199,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(100,168,216,1) 30%,rgba(35,132,199,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(100,168,216,1) 30%,rgba(35,132,199,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(100,168,216,1) 30%,rgba(35,132,199,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(100,168,216,1) 30%,rgba(35,132,199,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64a8d8', endColorstr='#2384c7',GradientType=0 ); /* IE6-9 */
+}
+
+.categorydropdown > li:hover:after
+{
+    top: 80%;
+    opacity: 0;
+}
+
+.categorydropdown li:hover ul
+{
+    opacity: 1;
+    pointer-events: auto;
+}
