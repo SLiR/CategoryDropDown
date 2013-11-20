@@ -13,7 +13,6 @@
 
         <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/categorydropdown.css" />
-        <link rel="stylesheet" type="text/css" href="css/categorydropdown_orig.css" />
     </head>
     <body>
         <div id="container">
@@ -37,14 +36,14 @@
                             </a>
                         </li>
 
-                        <li>
+                        <li value="SchoolContacts">
                             <a href="#">
                                 <i class="fa fa-users"></i>
                                 Contacts
                             </a>
                         </li>
 
-                        <li>
+                        <li value="SchoolDistricts">
                             <a href="#">
                                 <i class="fa fa-building-o"></i>
                                 Districts
@@ -84,14 +83,14 @@
                     <span>Other</span>
 
                     <ul>
-                        <li>
+                        <li value="EducationPlans">
                             <a href="#">
                                 <i class="fa fa-pencil-square-o"></i>
                                 Education Plans
                             </a>
                         </li>
 
-                        <li>
+                        <li value="EventTypes">
                             <a href="#">
                                 <i class="fa fa-list"></i>
                                 Event Types
@@ -102,53 +101,83 @@
 
             </ul>
 
-<!--
-             <div class="wrapper-demo">
-                <div id="dd" class="wrapper-dropdown-3 active" tabindex="1">
-                    <span>Testing</span>
 
-                    <ul class="dropdown">
+            <ul class="categorydropdown">
+                <li>
+                    <span>Math</span>
+
+                    <ul>
                         <li>
                             <a href="#">
-                                <i class="icon-envelope icon-large"></i>
-                                Test menu 1
-                            </a>
-
-                            <ul class="dropdown">
-                                <li><a href="#">Testing</a></li>
-                                <li><a href="#">Testing</a></li>
-                                <li><a href="#">Testing</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <i class="icon-envelope icon-large"></i>
-                                Test menu 1
+                                <i class="fa fa-map-marker"></i>
+                                Additions
                             </a>
                         </li>
 
                         <li>
                             <a href="#">
-                                <i class="icon-envelope icon-large"></i>
-                                Test menu 1
+                                <i class="fa fa-bell"></i>
+                                Subtractions
                             </a>
                         </li>
 
                         <li>
                             <a href="#">
-                                <i class="icon-envelope icon-large"></i>
-                                Test menu 1
+                                <i class="fa fa-users"></i>
+                                Multiplications
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-building-o"></i>
+                                Division
                             </a>
                         </li>
                     </ul>
-                </div>
+                </li>
 
-            </div>
--->
+                <li>
+                    <span>Reading</span>
+
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-map-marker"></i>
+                                History
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-bell"></i>
+                                Social Science
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-users"></i>
+                                Art
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-building-o"></i>
+                                World
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
 
         </div>
 
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/categorydropdown.js"></script>
+        <script type="text/javascript">
+            var cdd = $('.categorydropdown').CategoryDropDown();
+        </script>
     </body>
 </html>

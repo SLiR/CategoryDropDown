@@ -78,6 +78,7 @@
     right: 0;
     padding: 0;
     margin: 0;
+    z-index: 999;
 
     /* Styles */
     background: white;
@@ -158,7 +159,8 @@
 }
 
 /* Top level Hover/Active state */
-.categorydropdown > li:hover span
+.categorydropdown > li:hover span,
+.categorydropdown li.active span
 {
     color: #fff;
     background: rgb(100,168,216); /* Old browsers */
@@ -171,13 +173,15 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64a8d8', endColorstr='#2384c7',GradientType=0 ); /* IE6-9 */
 }
 
-.categorydropdown > li:hover:after
+.categorydropdown > li:hover:after,
+.categorydropdown li.active:after
 {
     top: 80%;
     opacity: 0;
 }
 
-.categorydropdown li:hover ul
+.categorydropdown li:hover ul,
+.categorydropdown li.active ul
 {
     opacity: 1;
     pointer-events: auto;
