@@ -17,7 +17,7 @@
     <body>
         <div id="container">
 
-            <ul class="categorydropdown">
+            <ul id='cat1' class="categorydropdown">
                 <li>
                     <span>School</span>
 
@@ -98,11 +98,9 @@
                         </li>
                     </ul>
                 </li>
-
             </ul>
 
-
-            <ul class="categorydropdown">
+            <ul id='cat2' class="categorydropdown">
                 <li>
                     <span>Math</span>
 
@@ -177,7 +175,9 @@
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/categorydropdown.js"></script>
         <script type="text/javascript">
-            var cdd = $('.categorydropdown').CategoryDropDown();
+            //$('.categorydropdown').CategoryDropDown();
+            $('#cat1').CategoryDropDown();
+            $('#cat2').CategoryDropDown({idkey: 'cat2'});
         </script>
     </body>
 </html>

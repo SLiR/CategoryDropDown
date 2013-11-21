@@ -62,10 +62,10 @@
 
     /* Transition */
     -webkit-transition: all 0.3s ease-in;
-    -moz-transition: all 0.3s ease-in;
-    -ms-transition: all 0.3s ease-in;
-    -o-transition: all 0.3s ease-in;
-    transition: all 0.3s ease-in;
+    -moz-transition:    all 0.3s ease-in;
+    -ms-transition:     all 0.3s ease-in;
+    -o-transition:      all 0.3s ease-in;
+    transition:         all 0.3s ease-in;
 }
 
 /* The UL lists within the LI elements act as the drop down */
@@ -93,10 +93,10 @@
     pointer-events: none;
 
     -webkit-transition: all 0.3s ease-in;
-    -moz-transition: all 0.3s ease-in;
-    -ms-transition: all 0.3s ease-in;
-    -o-transition: all 0.3s ease-in;
-    transition: all 0.3s ease-in;
+    -moz-transition:    all 0.3s ease-in;
+    -ms-transition:     all 0.3s ease-in;
+    -o-transition:      all 0.3s ease-in;
+    transition:         all 0.3s ease-in;
 }
 
 .categorydropdown li ul:after
@@ -132,12 +132,14 @@
     text-decoration: none;
     color: #8aa8bd;
     border-bottom: 1px solid #e6e8ea;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,1);
+
+    /* CSS3 */
+    box-shadow:         inset 0 1px 0 rgba(255,255,255,1);
     -webkit-transition: all 0.2s ease-in;
-    -moz-transition: all 0.2s ease-in;
-    -ms-transition: all 0.2s ease-in;
-    -o-transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in;
+    -moz-transition:    all 0.2s ease-in;
+    -ms-transition:     all 0.2s ease-in;
+    -o-transition:      all 0.2s ease-in;
+    transition:         all 0.2s ease-in;
 }
 
 .categorydropdown li ul li i
