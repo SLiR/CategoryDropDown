@@ -2,8 +2,6 @@
 
     $.fn.CategoryDropDown = function(options){
 
-        this.dropdowns = [],
-
         options = $.extend({}, $.fn.CategoryDropDown.defaultOptions, options);
 
         // dropdown handles the UL elements located inside the first level LI elements.
@@ -35,11 +33,15 @@
                 });
             },
             doSelect : function(opt, setHash){
+                // Remove the active class from the currently selected item.
+                $('li.' + options.activeClass, this.el).removeClass(options.activeClass);
+
                 if(opt){
-                    var attr = opt.attr('value');
+                    var attr = opt.attr('data-value');
                     this.selectedValue = $.trim( (typeof attr !== 'undefined' ? attr : opt.text()) );
                     this.selectedIndex = opt.index();
                     this.placeholder.text(this.title + ': ' + this.selectedValue);
+                    opt.addClass(options.activeClass);
                 } else {
                     this.selectedValue = '';
                     this.selectedIndex = -1;
@@ -55,7 +57,7 @@
 
         this.HashValue = function(value){
             var value = (typeof value !== 'undefined') ? value : this.selectedValue;
-            return (value == '') ? '' : '?' + options.idkey + '=' + value;
+            return (value == '') ? '' : '?' + options.idkey + ':' + value;
         };
 
         this.SelectedValue = function(value){
@@ -121,8 +123,7 @@
                 this.SelectedValue  = cdd.SelectedValue;
 
                 $(this).find('> li').each(function(){
-                    var dd = new dropdown($(this), innerCDD);
-                    cdd.dropdowns.push(dd);
+                    new dropdown($(this), innerCDD);
                 });
             });
 
@@ -135,7 +136,7 @@
 
         this.TrackHash = function(){
             // Make sure setHash is set to true by default.
-            var regex = new RegExp(options.idkey + '=([^?]*)', 'gi');
+            var regex = new RegExp(options.idkey + ':([^?]*)', 'gi');
             var winHash = window.location.hash;
             var match = regex.exec(winHash);
 
