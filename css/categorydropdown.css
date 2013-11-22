@@ -30,7 +30,7 @@
     width: 200px;
 }
 
-.categorydropdown > li span
+.categorydropdown > li > span
 {
     /* Size and positions */
     padding: 10px;
@@ -48,9 +48,11 @@
     font-weight: bold;
 }
 
+.categorydropdown li.selected > span { background: rgba(49, 102, 139, 1); color: #fff; }
+
 /* Top level Hover/Active state */
-.categorydropdown > li:hover span,
-.categorydropdown li.active span
+.categorydropdown > li:hover > span,
+.categorydropdown li.active > span
 {
     color: #fff;
     background: rgb(100,168,216); /* Old browsers */
@@ -69,6 +71,8 @@
     -o-transition:      all;
     transition:         all;
 }
+
+.categorydropdown li.selected:after { border-color: #fff transparent; }
 
 .categorydropdown > li:after
 {
@@ -139,7 +143,7 @@
 
 /* Shared transition pattern */
 .categorydropdown ul,
-.categorydropdown > li span
+.categorydropdown > li > span
 {
     /* Transition */
     -webkit-transition: all 0.3s ease-in 0.3s;

@@ -32,17 +32,17 @@
                     return obj.doSelect($(this));
                 });
             },
-            doSelect : function(opt, setHash){
-                if(!opt) return;
+            doSelect : function(listItem, setHash){
+                if(!listItem) return;
                 // Exit if the same index is being selected.
-                if(opt.index() == this.selectedIndex) return;
+                if(listItem.index() == this.selectedIndex) return;
 
                 // Reset our selections to get ready for a new selected item.
                 this.reset();
 
-                var value = opt.attr('data-value');
-                var text = $.trim(opt.text());
-                var index = opt.index();
+                var value = listItem.attr('data-value');
+                var text = $.trim(listItem.text());
+                var index = listItem.index();
 
                 this.selectedValue = (typeof value !== 'undefined' ? value : text);
                 this.selectedIndex = index;
@@ -54,7 +54,11 @@
                     return (typeof titleArgs[i] !== 'undefined' ? titleArgs[i] : m);
                 });
                 this.placeholder.text(newTitle);
-                opt.addClass(options.activeClass);
+
+                // Add an active class to the currently selected item.
+                listItem.addClass(options.activeClass);
+                // Add selected class to the UL container.
+                this.el.addClass(options.selectedClass);
 
                 // Call select on the parent, which is our CategoryDropDown container.
                 this.cdd.Select(this, setHash);
@@ -63,8 +67,9 @@
             reset : function(){
                 // Remove the active class from the currently selected item.
                 $('li.' + options.activeClass, this.el).removeClass(options.activeClass);
-                // Make sure the dropdown can collapse
-                this.el.removeClass(options.activeClass);
+                // Make sure the dropdown can collapse and remove the 'selected' class
+                this.el.removeClass(options.activeClass + ' ' + options.selectedClass);
+                // Close the menu if it's open.
                 this.closeMenu();
 
                 this.selectedValue = '';
@@ -201,6 +206,7 @@
     $.fn.CategoryDropDown.defaultOptions = {
               idkey:    'catdd',
         activeClass:    'active',
+      selectedClass:    'selected',
       closeOnSelect:    true,
        onItemSelect:    null,
         titleFormat:    '{0}: {1}'  // {0} = span text
