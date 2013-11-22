@@ -40,12 +40,20 @@
                 // Reset our selections to get ready for a new selected item.
                 this.reset();
 
-                var attr = opt.attr('data-value');
-                this.selectedValue = $.trim( (typeof attr !== 'undefined' ? attr : opt.text()) );
-                this.selectedIndex = opt.index();
+                var value = opt.attr('data-value');
+                var text = $.trim(opt.text());
+                var index = opt.index();
+
+                this.selectedValue = (typeof value !== 'undefined' ? value : text);
+                this.selectedIndex = index;
+
                 // Set a new title
-                var addedTitle = ((this.selectedValue != '') ? ': ' + this.selectedValue : '');
-                this.placeholder.text(this.title + addedTitle);
+                var titleArgs = [ this.title, text, this.selectedValue, index ];
+                var titleFormat = ((this.selectedValue != '') ? options.titleFormat : '{0}');
+                var newTitle = titleFormat.replace(/{(\d+)}/g, function(m, i){
+                    return (typeof titleArgs[i] !== 'undefined' ? titleArgs[i] : m);
+                });
+                this.placeholder.text(newTitle);
                 opt.addClass(options.activeClass);
 
                 // Call select on the parent, which is our CategoryDropDown container.
@@ -81,20 +89,20 @@
 
         this.SelectedValue = function(value){
             if(typeof value !== 'undefined'){
-                var winLocation = ('' + window.location).split('#');
-                var winHash     = winLocation[1];
+                var winLoc      = ('' + window.location).split('#');
+                var winHash     = winLoc[1];
                 var curHash     = this.HashValue();
                 var newHash     = this.HashValue(value);
-                var newWinLocation = '';
+                var newWinLoc   = '';
 
                 if(typeof winHash === 'undefined') winHash = '';
 
                 if(winHash != '' && curHash != '' && winHash.indexOf(curHash) !== -1)
-                    newWinLocation = winHash.replace(curHash, newHash);
+                    newWinLoc = winHash.replace(curHash, newHash);
                 else
-                    newWinLocation = winHash + ((winHash != '') ? '&' : '') + newHash;
+                    newWinLoc = winHash + ((winHash != '') ? '&' : '') + newHash;
 
-                location.replace(winLocation[0] + '#' + newWinLocation);
+                location.replace(winLoc[0] + '#' + newWinLoc);
                 this.selectedValue = value;
             } else {
                 return this.selectedValue;
@@ -194,7 +202,11 @@
               idkey:    'catdd',
         activeClass:    'active',
       closeOnSelect:    true,
-       onItemSelect:    null
+       onItemSelect:    null,
+        titleFormat:    '{0}: {1}'  // {0} = span text
+                                    // {1} = li text
+                                    // {2} = li value
+                                    // {3} = li index
     };
 
 })(jQuery);
