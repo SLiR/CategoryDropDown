@@ -57,16 +57,26 @@
                 $('li.' + options.activeClass, this.el).removeClass(options.activeClass);
                 // Make sure the dropdown can collapse
                 this.el.removeClass(options.activeClass);
+                this.closeMenu();
 
                 this.selectedValue = '';
                 this.selectedIndex = -1;
                 this.placeholder.text(this.title);
+            },
+            closeMenu : function(){
+                var domUL = this.el.find('ul:first');
+                if(!options.closeOnSelect ||
+                    !domUL.is(':visible') ||
+                    domUL.css( "visibility") !== 'visible') return;
+                var toggleClose = function(){ domUL.toggle(); };
+                toggleClose();
+                setTimeout(function(){toggleClose();}, 100);
             }
         };
 
         this.HashValue = function(value){
             var value = (typeof value !== 'undefined') ? value : this.selectedValue;
-            return (value == '') ? '' : '?' + options.idkey + ':' + value;
+            return (value == '') ? '' : options.idkey + '=' + value;
         };
 
         this.SelectedValue = function(value){
@@ -82,7 +92,7 @@
                 if(winHash != '' && curHash != '' && winHash.indexOf(curHash) !== -1)
                     newWinLocation = winHash.replace(curHash, newHash);
                 else
-                    newWinLocation = winHash + newHash;
+                    newWinLocation = winHash + ((winHash != '') ? '&' : '') + newHash;
 
                 location.replace(winLocation[0] + '#' + newWinLocation);
                 this.selectedValue = value;
@@ -150,7 +160,7 @@
 
         this.TrackHash = function(){
             // Make sure setHash is set to true by default.
-            var regex = new RegExp(options.idkey + ':([^?]*)', 'gi');
+            var regex = new RegExp(options.idkey + '=([^&]*)', 'gi');
             var winHash = window.location.hash;
             var match = regex.exec(winHash);
 
@@ -183,6 +193,7 @@
     $.fn.CategoryDropDown.defaultOptions = {
               idkey:    'catdd',
         activeClass:    'active',
+      closeOnSelect:    true,
        onItemSelect:    null
     };
 

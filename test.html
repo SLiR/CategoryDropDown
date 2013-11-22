@@ -179,16 +179,19 @@
 
         </div>
 
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="js/categorydropdown.js"></script>
         <script type="text/javascript">
-            function OnItemSelect(value, index) { alert(value + '\n' + index); }
+            function OnItemSelect(value, index) { console.log(value + '\n' + index); }
 
             var options = { onItemSelect: OnItemSelect };
 
             //$('.categorydropdown').CategoryDropDown();
             $('#cat1').CategoryDropDown(options);
-            $('#cat2').CategoryDropDown({idkey: 'cat2', onItemSelect: options.onItemSelect});
+            $('#cat2').CategoryDropDown({
+                idkey: 'cat2',
+                closeOnSelect: false,
+                onItemSelect: options.onItemSelect});
         </script>
     </body>
 </html>

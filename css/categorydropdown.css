@@ -106,6 +106,8 @@
 }
 
 /* The UL lists within the LI elements act as the drop down */
+.categorydropdown ul.off { display: none; }
+
 .categorydropdown ul
 {
     /* Size & position */
