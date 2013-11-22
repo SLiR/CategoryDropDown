@@ -33,25 +33,34 @@
                 });
             },
             doSelect : function(opt, setHash){
-                // Remove the active class from the currently selected item.
-                $('li.' + options.activeClass, this.el).removeClass(options.activeClass);
+                if(!opt) return;
+                // Exit if the same index is being selected.
+                if(opt.index() == this.selectedIndex) return;
 
-                if(opt){
-                    var attr = opt.attr('data-value');
-                    this.selectedValue = $.trim( (typeof attr !== 'undefined' ? attr : opt.text()) );
-                    this.selectedIndex = opt.index();
-                    this.placeholder.text(this.title + ': ' + this.selectedValue);
-                    opt.addClass(options.activeClass);
-                } else {
-                    this.selectedValue = '';
-                    this.selectedIndex = -1;
-                    this.placeholder.text(this.title);
-                }
-                // Make sure the dropdown can collapse
-                this.el.removeClass(options.activeClass);
+                // Reset our selections to get ready for a new selected item.
+                this.reset();
+
+                var attr = opt.attr('data-value');
+                this.selectedValue = $.trim( (typeof attr !== 'undefined' ? attr : opt.text()) );
+                this.selectedIndex = opt.index();
+                // Set a new title
+                var addedTitle = ((this.selectedValue != '') ? ': ' + this.selectedValue : '');
+                this.placeholder.text(this.title + addedTitle);
+                opt.addClass(options.activeClass);
+
                 // Call select on the parent, which is our CategoryDropDown container.
                 this.cdd.Select(this, setHash);
                 return false;
+            },
+            reset : function(){
+                // Remove the active class from the currently selected item.
+                $('li.' + options.activeClass, this.el).removeClass(options.activeClass);
+                // Make sure the dropdown can collapse
+                this.el.removeClass(options.activeClass);
+
+                this.selectedValue = '';
+                this.selectedIndex = -1;
+                this.placeholder.text(this.title);
             }
         };
 
@@ -84,18 +93,20 @@
 
         this.Select = function(dropdown, setHash){
             if(!dropdown) return;
+            // Exit if setting the same value.
+            if(this.selectedValue && this.selectedValue === dropdown.selectedValue)
+                return;
+
             // Make sure setHash is set to true by default.
             var setHash = (typeof setHash !== 'boolean') ? true : setHash;
 
             if(this.lastDropdown && this.lastDropdown !== dropdown)
-                this.lastDropdown.doSelect();
+                this.lastDropdown.reset();
 
             if(dropdown.selectedIndex > -1)
             {
-                if(this.selectedValue && this.selectedValue === dropdown.selectedValue)
-                    return;
-
                 this.lastDropdown = dropdown;
+                this.selectedIndex = dropdown.selectedIndex;
                 if(setHash)
                     this.SelectedValue(dropdown.selectedValue);
                 else
@@ -103,10 +114,13 @@
             }
             else
             {
-                this.selectedIndex = null;
+                this.selectedIndex = -1;
                 this.SelectedValue('');
                 this.lastDropdown = null;
             }
+
+            if(typeof options.onItemSelect === 'function')
+                options.onItemSelect(this.selectedValue, this.selectedIndex);
         };
 
         this.init = function(){
@@ -115,8 +129,8 @@
             this.each(function(){
                 var innerCDD        = this;
                 this.lastDropdown   = null;
-                this.selectedVal    = null;
-                this.selectedIndex  = null;
+                this.selectedVal    = '';
+                this.selectedIndex  = -1;
                 this.selectedValue  = '';
                 this.Select         = cdd.Select;
                 this.HashValue      = cdd.HashValue;
@@ -143,7 +157,7 @@
             while(match != null){
                 var value = match[1];
                 var selector = 'li ul li:contains("' + value + '"):first,' +
-                               'li ul li[value="' + value + '"]';
+                               'li ul li[data-value="' + value + '"]';
                 var selItem = $(this).find(selector);
 
                 if(selItem.length > 0)
@@ -168,7 +182,8 @@
 
     $.fn.CategoryDropDown.defaultOptions = {
               idkey:    'catdd',
-        activeClass:    'active'
+        activeClass:    'active',
+       onItemSelect:    null
     };
 
 })(jQuery);
