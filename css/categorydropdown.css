@@ -7,17 +7,12 @@
 
 .categorydropdown, .categorydropdown ul
 {
-    /* Size and position */
+    color: #697f8e;
+    display: block;
+    list-style: none;
     margin: 0;
     padding: 0;
     position: relative;
-
-    /* Styles */
-    display: block;
-    list-style: none;
-
-    /* Font settings */
-    color: #697f8e;
 }
 
 /* The first LI children act as the drop down top level */
@@ -32,20 +27,17 @@
 
 .categorydropdown > li > span
 {
-    /* Size and positions */
-    padding: 10px;
-
-    /* Styles */
     background: #fff;
     border: 1px solid rgba(0,0,0,0.15);
     border-radius: 7px;
-    box-shadow: 0 1px 1px rgba(50,50,50,0.1);
     cursor: pointer;
     display: block;
-    outline: none;
-
-    /* Font settings */
     font-weight: bold;
+    outline: none;
+    padding: 10px;
+
+    -webkit-box-shadow: 0 1px 1px rgba(50,50,50,0.1);
+    box-shadow:         0 1px 1px rgba(50,50,50,0.1);
 }
 
 .categorydropdown li.selected > span { background: rgba(49, 102, 139, 1); color: #fff; }
@@ -56,19 +48,17 @@
 {
     color: #fff;
     background: rgb(100,168,216); /* Old browsers */
-    background-image: -moz-linear-gradient(top, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%); /* FF3.6+ */
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(30%, rgba(100,168,216,1)), color-stop(100%,rgba(35,132,199,1))); /* Chrome,Safari4+ */
-    background-image: -webkit-linear-gradient(top, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%); /* Chrome10+,Safari5.1+ */
-    background-image: -o-linear-gradient(top, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%); /* Opera 11.10+ */
-    background-image: -ms-linear-gradient(top, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%); /* IE10+ */
-    background-image: linear-gradient(to bottom, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%); /* W3C */
+    background-image: -webkit-linear-gradient(to bottom, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%);
+    background-image: -moz-linear-gradient(to bottom, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%);
+    background-image: -o-linear-gradient(to bottom, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%);
+    background-image: -ms-linear-gradient(to bottom, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%);
+    background-image: linear-gradient(to bottom, rgba(100,168,216,1) 30%, rgba(35,132,199,1) 100%);
     background-position: 0px 0px;
 
-    /* Transition */
     -webkit-transition: all;
     -moz-transition:    all;
-    -ms-transition:     all;
     -o-transition:      all;
+    -ms-transition:     all;
     transition:         all;
 }
 
@@ -87,7 +77,6 @@
     border-style: solid;
     border-color: #8aa8bd transparent;
 
-    /* Transition */
     -webkit-transition: top 0.3s ease-in 0.3s, opacity 0.3s ease-in 0.3s;
     -moz-transition:    top 0.3s ease-in 0.3s, opacity 0.3s ease-in 0.3s;
     -ms-transition:     top 0.3s ease-in 0.3s, opacity 0.3s ease-in 0.3s;
@@ -100,7 +89,6 @@
 {
     border-color: #fff transparent;
     top: 80%;
-    opacity: 0;
 
     -webkit-transition: top 0.3s ease-in, opacity 0.3s ease-in;
     -moz-transition:    top 0.3s ease-in, opacity 0.3s ease-in;
@@ -114,25 +102,19 @@
 
 .categorydropdown ul
 {
-    /* Size & position */
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 85%;
-    z-index: 1;
-
-    /* Styles */
     background: white;
     border-radius: 0px 0px 7px 7px;
     border: 1px solid rgba(0,0,0,0.17);
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     display: block;
     font-weight: normal;
+    left: 0;
     list-style: none;
+    position: absolute;
+    right: 0;
+    top: 85%;
     visibility: hidden;
-
-    /* Hiding */
-    opacity: 0;
+    z-index: 1;
 
     -webkit-transition: all 0.3s ease-in 0.3s;
     -moz-transition:    all 0.3s ease-in 0.3s;
@@ -141,11 +123,16 @@
     transition:         all 0.3s ease-in 0.3s;
 }
 
-/* Shared transition pattern */
+/* Shared opacity styles */
+.categorydropdown > li:hover:after,
+.categorydropdown li.active:after,
+.categorydropdown ul
+{ opacity:    0; }
+
+/* Shared transition settings */
 .categorydropdown ul,
 .categorydropdown > li > span
 {
-    /* Transition */
     -webkit-transition: all 0.3s ease-in 0.3s;
     -moz-transition:    all 0.3s ease-in 0.3s;
     -ms-transition:     all 0.3s ease-in 0.3s;
@@ -157,8 +144,8 @@
 .categorydropdown li.active ul
 {
     height: auto;
-    opacity: 1;
     visibility: visible;
+    opacity:    1;
     z-index: 3;
 
     -webkit-transition: all 0.3s ease-in;
@@ -212,8 +199,8 @@
     position: relative;
     text-decoration: none;
 
-    /* CSS3 */
     box-shadow:         inset 0 1px 0 rgba(255,255,255,1);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,1);
     -webkit-transition: all 0.2s ease-in;
     -moz-transition:    all 0.2s ease-in;
     -ms-transition:     all 0.2s ease-in;
@@ -228,7 +215,12 @@
 }
 
 /* Dropdown item Active and Hover states */
-.categorydropdown ul li.active a { color: #fff; background: rgba(49, 102, 139, 1); padding-left: 23px; }
+.categorydropdown ul li.active a
+{
+    color: #fff;
+    background: rgba(49, 102, 139, 1);
+    padding-left: 23px;
+}
 .categorydropdown ul li.active a:after
 {
     color: #fff;
