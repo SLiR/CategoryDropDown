@@ -32,6 +32,15 @@
                     return obj.doSelect($(this));
                 });
             },
+            closeMenu : function(){
+                var domUL = this.el.find('ul:first');
+                if(!options.closeOnSelect ||
+                    !domUL.is(':visible') ||
+                    domUL.css( "visibility") !== 'visible') return;
+                var toggleClose = function(){ domUL.toggle(); };
+                toggleClose();
+                setTimeout(function(){toggleClose();}, 100);
+            },
             doSelect : function(listItem, setHash){
                 if(!listItem) return;
                 // Exit if the same index is being selected.
@@ -47,13 +56,7 @@
                 this.selectedValue = (typeof value !== 'undefined' ? value : text);
                 this.selectedIndex = index;
 
-                // Set a new title
-                var titleArgs = [ this.title, text, this.selectedValue, index ];
-                var titleFormat = ((this.selectedValue != '') ? options.titleFormat : '{0}');
-                var newTitle = titleFormat.replace(/{(\d+)}/g, function(m, i){
-                    return (typeof titleArgs[i] !== 'undefined' ? titleArgs[i] : m);
-                });
-                this.placeholder.text(newTitle);
+                this.setTitle(text);
 
                 // Add an active class to the currently selected item.
                 listItem.addClass(options.activeClass);
@@ -76,14 +79,28 @@
                 this.selectedIndex = -1;
                 this.placeholder.text(this.title);
             },
-            closeMenu : function(){
-                var domUL = this.el.find('ul:first');
-                if(!options.closeOnSelect ||
-                    !domUL.is(':visible') ||
-                    domUL.css( "visibility") !== 'visible') return;
-                var toggleClose = function(){ domUL.toggle(); };
-                toggleClose();
-                setTimeout(function(){toggleClose();}, 100);
+            setTitle : function(text){
+                // Set a new title
+                var titleArgs = [ this.title, text, this.selectedValue, this.selectedIndex ];
+                var titleFormat;
+                if(this.selectedValue == '')
+                    titleFormat = '{0}';
+                else
+                {
+                    var attrID = 'data-format';
+                    // Try to get the title format from the UL element first.
+                    // Try the LI element next.
+                    // Finally, fall back to the options title format.
+                    titleFormat = this.el.closest('ul').attr(attrID)
+                                || this.el.attr(attrID)
+                                || options.titleFormat;
+                }
+
+                var newTitle = titleFormat.replace(/{(\d+)}/g, function(m, i){
+                    return (typeof titleArgs[i] !== 'undefined' ? titleArgs[i] : m);
+                });
+
+                this.placeholder.text(newTitle);
             }
         };
 
