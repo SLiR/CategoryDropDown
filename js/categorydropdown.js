@@ -91,8 +91,8 @@
                     // Try to get the title format from the UL element first.
                     // Try the LI element next.
                     // Finally, fall back to the options title format.
-                    titleFormat = this.el.closest('ul').attr(attrID)
-                                || this.el.attr(attrID)
+                    titleFormat = this.el.attr(attrID)
+                                || this.el.closest('ul').attr(attrID)
                                 || options.titleFormat;
                 }
 
@@ -226,10 +226,13 @@
       selectedClass:    'selected',
       closeOnSelect:    true,
        onItemSelect:    null,
-        titleFormat:    '{0}: {1}'  // {0} = span text
-                                    // {1} = li text
-                                    // {2} = li value
-                                    // {3} = li index
+        titleFormat:    '{0}: {1}'
     };
+
+    // Title Format codes:
+    // {0} = span text
+    // {1} = li text
+    // {2} = li value
+    // {3} = li index
 
 })(jQuery);
