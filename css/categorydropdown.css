@@ -33,11 +33,17 @@
     cursor: pointer;
     display: block;
     font-weight: bold;
-    outline: none;
+    overflow: hidden;
     padding: 10px;
+    padding-right: 30px;
+    white-space: nowrap;
 
     -webkit-box-shadow: 0 1px 1px rgba(50,50,50,0.1);
     box-shadow:         0 1px 1px rgba(50,50,50,0.1);
+
+    -ms-text-overflow:  ellipsis;
+    -o-text-overflow:   ellipsis;
+    text-overflow:      ellipsis;
 }
 
 /* Top level Hover/Active state */
@@ -97,8 +103,6 @@
 }
 
 /* The UL lists within the LI elements act as the drop down */
-.categorydropdown ul.off { display: none; }
-
 .categorydropdown ul
 {
     background: white;
@@ -142,10 +146,9 @@
 .categorydropdown > li:hover ul,
 .categorydropdown li.active ul
 {
-    height: auto;
     visibility: visible;
-    opacity:    1;
-    z-index: 3;
+    opacity: 1;
+    z-index: 2;
 
     -webkit-transition: all 0.3s ease-in;
     -moz-transition:    all 0.3s ease-in;
@@ -213,14 +216,13 @@
     border-radius: 0 0 7px 7px;
 }
 
-/* Dropdown item Active and Hover states */
-.categorydropdown ul li.active a
+.categorydropdown ul li.selected a
 {
     color: #fff;
     background: rgba(49, 102, 139, 1);
     padding-left: 23px;
 }
-.categorydropdown ul li.active a:after
+.categorydropdown ul li.selected a:after
 {
     color: #fff;
     content: "\2713";

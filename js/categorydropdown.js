@@ -5,8 +5,8 @@
         options = $.extend({}, $.fn.CategoryDropDown.defaultOptions, options);
 
         // dropdown handles the UL elements located inside the first level LI elements.
-        var dropdown = function(el, innerCDD){
-            this.cdd            = innerCDD;
+        var dropdown = function (el, cdd) {
+            this.cdd            = cdd;
             this.el             = el;
             this.placeholder    = this.el.find('> span');
             this.opts           = this.el.find('> ul > li');
@@ -20,15 +20,18 @@
         dropdown.prototype = {
             initEvents : function(){
                 var obj = this;
-                // Store this dropdown as a data object with jQuery
-                $.data(obj.el[0], 'CategoryDropDown', obj);
 
-                obj.el.on('click', function(){
+                this.el.on('click', function(){
+                    // Close any open menus
+                    $('> li.' + options.activeClass, obj.cdd)
+                    .not(this)
+                    .each(function () { this.dd.closeMenu(); });
+
                     $(this).toggleClass(options.activeClass);
                     return false;
                 });
 
-                obj.opts.on('click', function(){
+                this.opts.on('click', function(){
                     return obj.doSelect($(this));
                 });
             },
@@ -37,6 +40,7 @@
                 if(!options.closeOnSelect ||
                     !domUL.is(':visible') ||
                     domUL.css( "visibility") !== 'visible') return;
+                this.el.removeClass(options.activeClass);
                 var toggleClose = function(){ domUL.toggle(); };
                 toggleClose();
                 setTimeout(function(){toggleClose();}, 100);
@@ -56,10 +60,10 @@
                 this.selectedValue = (typeof value !== 'undefined' ? value : text);
                 this.selectedIndex = index;
 
-                this.setTitle(text);
+                this.setTitle(text, listItem);
 
-                // Add an active class to the currently selected item.
-                listItem.addClass(options.activeClass);
+                // Add selected class to the currently selected item.
+                listItem.addClass(options.selectedClass);
                 // Add selected class to the UL container.
                 this.el.addClass(options.selectedClass);
 
@@ -69,9 +73,9 @@
             },
             reset : function(){
                 // Remove the active class from the currently selected item.
-                $('li.' + options.activeClass, this.el).removeClass(options.activeClass);
+                $('li.' + options.selectedClass, this.el).removeClass(options.selectedClass);
                 // Make sure the dropdown can collapse and remove the 'selected' class
-                this.el.removeClass(options.activeClass + ' ' + options.selectedClass);
+                this.el.removeClass(options.selectedClass);
                 // Close the menu if it's open.
                 this.closeMenu();
 
@@ -79,7 +83,7 @@
                 this.selectedIndex = -1;
                 this.placeholder.text(this.title);
             },
-            setTitle : function(text){
+            setTitle : function(text, listItem){
                 // Set a new title
                 var titleArgs = [ this.title, text, this.selectedValue, this.selectedIndex ];
                 var titleFormat;
@@ -88,10 +92,12 @@
                 else
                 {
                     var attrID = 'data-format';
-                    // Try to get the title format from the UL element first.
-                    // Try the LI element next.
+                    // Try to get the title from the selected list item first.
+                    // Try the LI element second.
+                    // Try the UL element third.
                     // Finally, fall back to the options title format.
-                    titleFormat = this.el.attr(attrID)
+                    titleFormat = ((listItem) ? listItem.attr(attrID) : null)
+                                || this.el.attr(attrID)
                                 || this.el.closest('ul').attr(attrID)
                                 || options.titleFormat;
                 }
@@ -110,7 +116,8 @@
         };
 
         this.SelectedValue = function(value){
-            if(typeof value !== 'undefined'){
+            if(typeof value !== 'undefined')
+            {
                 var winLoc      = ('' + window.location).split('#');
                 var winHash     = winLoc[1];
                 var curHash     = this.HashValue();
@@ -126,9 +133,9 @@
 
                 location.replace(winLoc[0] + '#' + newWinLoc);
                 this.selectedValue = value;
-            } else {
-                return this.selectedValue;
             }
+            else
+                return this.selectedValue;
         };
 
         this.Select = function(dropdown, setHash){
@@ -177,12 +184,15 @@
                 this.SelectedValue  = cdd.SelectedValue;
 
                 $(this).find('> li').each(function(){
-                    new dropdown($(this), innerCDD);
+                    var dd = new dropdown($(this), innerCDD);
+                    this.dd = dd; // Store the dropdown object on the LI element
                 });
             });
 
-            cdd.TrackHash();
+            // Set selected menu's based on Location Hash
+            this.TrackHash();
 
+            // Close all open drop down menus
             $(document).click(function(){
                 cdd.find('> li').removeClass(options.activeClass);
             })
@@ -203,12 +213,10 @@
                 if(selItem.length > 0)
                 {
                     var domParent = selItem.parents('li');
-                    var domDropDown = (domParent.length > 0) ?
-                                        $.data(domParent[0], 'CategoryDropDown') :
-                                        null;
+                    var dropDown = domParent[0].dd;
 
-                    if(domDropDown != null)
-                        domDropDown.doSelect(selItem, false);
+                    if(dropDown != null)
+                        dropDown.doSelect(selItem, false);
                 }
 
                 match = regex.exec(winHash);
