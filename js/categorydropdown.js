@@ -25,7 +25,7 @@
                     // Close any open menus
                     $('> li.' + options.activeClass, obj.cdd)
                     .not(this)
-                    .each(function () { this.dd.closeMenu(); });
+                    .each(function () { this.dd.closeMenu(true); });
 
                     $(this).toggleClass(options.activeClass);
                     return false;
@@ -35,9 +35,12 @@
                     return obj.doSelect($(this));
                 });
             },
-            closeMenu : function(){
+            closeMenu : function(isOpenEvent){
+                var isOpenEvent = (typeof isOpenEvent !== 'boolean') ? false : isOpenEvent;
                 var domUL = this.el.find('ul:first');
-                if(!options.closeOnSelect ||
+                if(
+                    (isOpenEvent && !options.closeOnOpen) ||
+                    (!isOpenEvent && !options.closeOnSelect) ||
                     !domUL.is(':visible') ||
                     domUL.css( "visibility") !== 'visible') return;
                 this.el.removeClass(options.activeClass);
@@ -58,14 +61,17 @@
                 var index = listItem.index();
 
                 this.selectedValue = (typeof value !== 'undefined' ? value : text);
-                this.selectedIndex = index;
+                this.selectedIndex = (this.selectedValue != '') ? index : -1;
 
                 this.setTitle(text, listItem);
 
-                // Add selected class to the currently selected item.
-                listItem.addClass(options.selectedClass);
-                // Add selected class to the UL container.
-                this.el.addClass(options.selectedClass);
+                if(this.selectedIndex != -1)
+                {
+                    // Add selected class to the currently selected item.
+                    listItem.addClass(options.selectedClass);
+                    // Add selected class to the UL container.
+                    this.el.addClass(options.selectedClass);
+                }
 
                 // Call select on the parent, which is our CategoryDropDown container.
                 this.cdd.Select(this, setHash);
@@ -118,20 +124,35 @@
         this.SelectedValue = function(value){
             if(typeof value !== 'undefined')
             {
-                var winLoc      = ('' + window.location).split('#');
-                var winHash     = winLoc[1];
-                var curHash     = this.HashValue();
-                var newHash     = this.HashValue(value);
-                var newWinLoc   = '';
+                if(options.saveToHash)
+                {
+                    var winLoc      = ('' + window.location).split('#');
+                    var winHash     = winLoc[1];
+                    var curHash     = this.HashValue();
+                    var newHash     = this.HashValue(value);
+                    var newWinLoc   = '';
 
-                if(typeof winHash === 'undefined') winHash = '';
+                    if(typeof winHash === 'undefined') winHash = '';
 
-                if(winHash != '' && curHash != '' && winHash.indexOf(curHash) !== -1)
-                    newWinLoc = winHash.replace(curHash, newHash);
-                else
-                    newWinLoc = winHash + ((winHash != '') ? '&' : '') + newHash;
+                    if(winHash != '' && curHash != '' && winHash.indexOf(curHash) !== -1)
+                    {
+                        // Replace the old hash value with the new hash value and
+                        //  convert the new hash value into an array split using the ampersand.
+                        var arrWinHash  = winHash.replace(curHash, newHash).split('&');
+                        // Remove the current hash and replace it with the new hash.
+                        // Remove any empty items
+                        arrWinHash = $.grep(arrWinHash, function(val){ return val != ''; });
 
-                location.replace(winLoc[0] + '#' + newWinLoc);
+                        // Join the array back using an ampersand sign as the separator.
+                        //newWinLoc = winHash.replace(curHash, newHash);
+                        newWinLoc = arrWinHash.join('&');
+                    }
+                    else
+                        newWinLoc = winHash + ((winHash != '') ? '&' : '') + newHash;
+
+                    location.replace(winLoc[0] + '#' + newWinLoc);
+                }
+
                 this.selectedValue = value;
             }
             else
@@ -150,7 +171,7 @@
             if(this.lastDropdown && this.lastDropdown !== dropdown)
                 this.lastDropdown.reset();
 
-            if(dropdown.selectedIndex > -1)
+            if(dropdown.selectedIndex > -1 && dropdown.selectedValue != '')
             {
                 this.lastDropdown = dropdown;
                 this.selectedIndex = dropdown.selectedIndex;
@@ -232,7 +253,9 @@
               idkey:    'catdd',
         activeClass:    'active',
       selectedClass:    'selected',
+        closeOnOpen:    true,
       closeOnSelect:    true,
+         saveToHash:    true,
        onItemSelect:    null,
         titleFormat:    '{0}: {1}'
     };
