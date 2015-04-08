@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Category Drop-Down List Styling</title>
+
+        <style type="text/css">
+            #container
+            {
+                margin: 0 auto;
+                width: 814px;
+            }
+        </style>
+
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/categorydropdown.css" />
+    </head>
+    <body>
+        <div id="container">
+
+            <ul id='cat1' class="categorydropdown">
+                <li>
+                    <span>School</span>
+
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-map-marker"></i>
+                                Counties
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-bell"></i>
+                                Schools
+                            </a>
+                        </li>
+
+                        <li data-value="SchoolContacts">
+                            <a href="#">
+                                <i class="fa fa-users"></i>
+                                Contacts
+                            </a>
+                        </li>
+
+                        <li data-value="SchoolDistricts">
+                            <a href="#">
+                                <i class="fa fa-building-o"></i>
+                                Districts
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li data-format="{2} [{3}]">
+                    <span>Session</span>
+
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-list-alt"></i>
+                                Activities
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-home"></i>
+                                Locations
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-book"></i>
+                                Subjects
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li data-format="{2} - [{3}]">
+                    <span>Other</span>
+
+                    <ul>
+                        <li data-value="EducationPlans">
+                            <a href="#">
+                                <i class="fa fa-pencil-square-o"></i>
+                                Education Plans
+                            </a>
+                        </li>
+
+                        <li data-value="EventTypes">
+                            <a href="#">
+                                <i class="fa fa-list"></i>
+                                Event Types
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul id='cat2' class="categorydropdown" data-format="{0}: {2}[{3}]">
+                <li>
+                    <span>Math</span>
+
+                    <ul>
+                        <li data-value="">
+                            <a href="#">
+                                <i class="fa fa-map-marker"></i>
+                                Select From List Below
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-map-marker"></i>
+                                Additions
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-bell"></i>
+                                Subtractions
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-users"></i>
+                                Multiplications
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-building-o"></i>
+                                Division
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <span>Reading</span>
+
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-map-marker"></i>
+                                History
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-bell"></i>
+                                Social Science
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-users"></i>
+                                Art
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-building-o"></i>
+                                World
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/categorydropdown.js"></script>
+        <script type="text/javascript">
+            function OnItemSelect(value, index) { console.log(value + '\n' + index); }
+
+            var options = { onItemSelect: OnItemSelect };
+
+            //$('.categorydropdown').CategoryDropDown();
+            $('#cat1').CategoryDropDown(options);
+            $('#cat2').CategoryDropDown({
+                idkey: 'cat2',
+                closeOnSelect: false,
+                onItemSelect: options.onItemSelect});
+        </script>
+    </body>
+</html>
